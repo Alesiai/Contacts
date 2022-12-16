@@ -12,14 +12,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import by.iaa.contacts.MainActivity;
 import by.iaa.contacts.Model.Contact;
 import by.iaa.contacts.Model.Image;
 import by.iaa.contacts.R;
+import by.iaa.contacts.ViewModel.MainViewModel;
 
 public class DetailFragment extends Fragment {
     ImageView image;
     TextView name, description, date, link, firstPhone, secondPhone;
-    Contact contact;
+    MainViewModel contact;
     View view;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,14 +39,10 @@ public class DetailFragment extends Fragment {
         return view;
     }
 
-    public void setSelectedItem(Contact contact) {
-        this.contact = contact;
-        name.setText(contact.name);
-        description.setText(contact.description);
-        date.setText(contact.getStringDate());
-        link.setText(contact.socialLink);
-        firstPhone.setText(contact.firstPhone);
-        secondPhone.setText(contact.secondPhone);
-        Image.getInstance().loadImageFromStorage(image,contact.pathImages);
+    public void setSelectedItem(MainViewModel contact) {
+      //  this.contact = contact;
+       // name.setText(contact.name);
+       // firstPhone.setText(contact.firstPhone);
+      //  Image.getInstance().loadImageFromStorage(image,contact.pathImages);
     }
 }

@@ -13,11 +13,13 @@ import by.iaa.contacts.DB.DatabaseAdapter;
 import by.iaa.contacts.DB.IRepository;
 import by.iaa.contacts.Model.Contact;
 import by.iaa.contacts.Model.Image;
+import by.iaa.contacts.ViewModel.EditViewModel;
+import by.iaa.contacts.ViewModel.MainViewModel;
 
 public class ViewContactActivity extends AppCompatActivity {
     TextView name, description, date, link, firstPhone, secondPhone;
     ImageView imageView;
-    Contact contact;
+    EditViewModel contact;
     IRepository<Contact> db = new DatabaseAdapter(this);
 
     @Override
@@ -25,9 +27,10 @@ public class ViewContactActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_contact);
 
-        db.open();
-        int id = ((Contact) getIntent().getExtras().getSerializable("contact")).id;
-        contact = db.get(id);
+        contact = new EditViewModel(this);
+
+        int id = getIntent().getIntExtra("id", 0);
+        contact = contact.getContactById(id);
 
         name = findViewById(R.id.name);
         description = findViewById(R.id.description);

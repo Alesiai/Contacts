@@ -6,10 +6,12 @@ import androidx.fragment.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 
 import by.iaa.contacts.Fragment.*;
 import by.iaa.contacts.Model.Contact;
+import by.iaa.contacts.ViewModel.MainViewModel;
 
 public class MainActivity extends AppCompatActivity implements ListContactFragment.OnFragmentSendDataListener {
     FragmentManager fragmentManager = getSupportFragmentManager();
@@ -33,15 +35,15 @@ public class MainActivity extends AppCompatActivity implements ListContactFragme
     }
 
     @Override
-    public void onSendData(Contact data) {
+    public void onSendData(MainViewModel data) {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            Intent intent = new Intent(this, ViewContactActivity.class);
-            intent.putExtra("contact", data);
-            startActivity(intent);
+         Intent intent = new Intent(this, ViewContactActivity.class);
+         intent.putExtra("id", data.id);
+          startActivity(intent);
         } else {
-            DetailFragment fragment = (DetailFragment) getSupportFragmentManager().
-                    findFragmentById(R.id.fragment_item_contact);
-            fragment.setSelectedItem(data);
+           DetailFragment fragment = (DetailFragment) getSupportFragmentManager().
+                   findFragmentById(R.id.fragment_item_contact);
+           fragment.setSelectedItem(data);
         }
     }
 

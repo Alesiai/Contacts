@@ -18,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -26,16 +27,16 @@ import java.util.GregorianCalendar;
 
 import by.iaa.contacts.DB.*;
 import by.iaa.contacts.Model.*;
+import by.iaa.contacts.ViewModel.AddViewModel;
 
 public class AddContactActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     EditText name, description, link, firstPhone, secondPhone, telegram, organization;
-
     DatePicker date;
     ImageView imageView;
-    IRepository<Contact> db = new DatabaseAdapter(this);
     Spinner category;
     Integer SelectedCategoryTypeId;
+    AddViewModel addViewModel;
 
     private final int Pick_image = 1;
 
@@ -43,6 +44,8 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_contact);
+
+        addViewModel = new AddViewModel(this);
 
         date = findViewById(R.id.calendar);
         imageView = findViewById(R.id.image);
@@ -110,7 +113,8 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
 
     public void addEvent() {
         Calendar calendar = new GregorianCalendar(date.getYear(), date.getMonth(), date.getDayOfMonth());
-        Contact contact = new Contact(
+        Toast.makeText(this, String.valueOf(date.getYear()), Toast.LENGTH_LONG).show();
+        AddViewModel addViewModel = new AddViewModel(
                 name.getText().toString(),
                 description.getText().toString(),
                 calendar,
@@ -121,16 +125,15 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
                 link.getText().toString(),
                 organization.getText().toString());
         try {
-            contact.pathImages = Image.getInstance().
+            addViewModel.pathImages = Image.getInstance().
                     saveToInternalStorage(((BitmapDrawable) imageView.getDrawable()).getBitmap(),
-                            this, contact.getNameImage());
+                            this, addViewModel.getNameImage());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        db.open();
-        db.insert(contact);
-        db.close();
+        addViewModel.AddContact(addViewModel);
+
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

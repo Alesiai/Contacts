@@ -39,13 +39,13 @@ public class DatabaseAdapter implements IRepository<Contact> {
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_NAME)),
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_DESCRIPTION)),
                     calendar,
-                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_PATH_IMAGE)),
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_FIRSTPHONE)),
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_SECONDPHONE)),
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_TELEGRAMLINK)),
                     cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_CATEGORY)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_SOCIALLINK)),
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_LOCATION)),
-                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_SOCIALLINK))
+                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_PATH_IMAGE))
             ));
         }
         return events;
@@ -63,13 +63,13 @@ public class DatabaseAdapter implements IRepository<Contact> {
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_NAME)),
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_DESCRIPTION)),
                     calendar,
-                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_PATH_IMAGE)),
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_FIRSTPHONE)),
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_SECONDPHONE)),
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_TELEGRAMLINK)),
                     cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_CATEGORY)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_SOCIALLINK)),
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_LOCATION)),
-                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_SOCIALLINK))
+                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_PATH_IMAGE))
             ));
         }
         return events;
@@ -153,13 +153,13 @@ public class DatabaseAdapter implements IRepository<Contact> {
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_NAME)),
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_DESCRIPTION)),
                     calendar,
-                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_PATH_IMAGE)),
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_FIRSTPHONE)),
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_SECONDPHONE)),
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_TELEGRAMLINK)),
                     cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_CATEGORY)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_SOCIALLINK)),
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_LOCATION)),
-                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_SOCIALLINK))
+                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_PATH_IMAGE))
             ));
         }
         return contacts;
@@ -184,13 +184,13 @@ public class DatabaseAdapter implements IRepository<Contact> {
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_NAME)),
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_DESCRIPTION)),
                     calendar,
-                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_PATH_IMAGE)),
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_FIRSTPHONE)),
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_SECONDPHONE)),
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_TELEGRAMLINK)),
                     cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_CATEGORY)),
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_SOCIALLINK)),
-                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_LOCATION))
+                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_LOCATION)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_PATH_IMAGE))
             );
         }
         cursor.close();

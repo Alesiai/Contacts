@@ -17,10 +17,23 @@
         <entry key="..\:/7sem/PMS/Contacts/app/src/main/res/menu/main_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/7sem/PMS/MyContactsDb/app/src/main/res/layout-land/activity_main.xml" value="0.21516754850088182" />
         <entry key="..\:/7sem/PMS/MyContactsDb/app/src/main/res/layout/activity_add_contact.xml" value="0.16979166666666667" />
+        <entry key="..\:/7sem/PMS/MyContactsDb/app/src/main/res/layout/activity_change_contact.xml" value="0.16979166666666667" />
         <entry key="..\:/7sem/PMS/MyContactsDb/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/7sem/PMS/MyContactsDb/app/src/main/res/layout/activity_view_contact.xml" value="0.16979166666666667" />
         <entry key="..\:/7sem/PMS/MyContactsDb/app/src/main/res/layout/activity_view_event.xml" value="0.25416666666666665" />
+        <entry key="..\:/7sem/PMS/MyContactsDb/app/src/main/res/layout/detail_fragment.xml" value="0.16979166666666667" />
+        <entry key="..\:/7sem/PMS/MyContactsDb/app/src/main/res/layout/list_contacts_fragment.xml" value="0.16979166666666667" />
         <entry key="..\:/7sem/PMS/MyContactsDb/app/src/main/res/layout/list_events_fragment.xml" value="0.25416666666666665" />
         <entry key="..\:/7sem/PMS/MyContactsDb/app/src/main/res/layout/list_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/7sem/PMS/MyContactsDbMVVM/app/src/main/res/layout-land/activity_main.xml" value="0.1865079365079365" />
+        <entry key="..\:/7sem/PMS/MyContactsDbMVVM/app/src/main/res/layout/activity_add_contact.xml" value="0.2203125" />
+        <entry key="..\:/7sem/PMS/MyContactsDbMVVM/app/src/main/res/layout/activity_change_contact.xml" value="0.25416666666666665" />
+        <entry key="..\:/7sem/PMS/MyContactsDbMVVM/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/7sem/PMS/MyContactsDbMVVM/app/src/main/res/layout/activity_view_contact.xml" value="0.2" />
+        <entry key="..\:/7sem/PMS/MyContactsDbMVVM/app/src/main/res/layout/detail_fragment.xml" value="0.25416666666666665" />
+        <entry key="..\:/7sem/PMS/MyContactsDbMVVM/app/src/main/res/layout/list_contacts_fragment.xml" value="0.25416666666666665" />
+        <entry key="..\:/7sem/PMS/MyContactsDbMVVM/app/src/main/res/layout/list_item.xml" value="0.1381340579710145" />
+        <entry key="..\:/7sem/PMS/MyContactsDbMVVM/app/src/main/res/menu/main_menu.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>

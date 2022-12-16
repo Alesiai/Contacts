@@ -18,7 +18,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -31,12 +30,13 @@ import by.iaa.contacts.DB.IRepository;
 import by.iaa.contacts.Model.Category;
 import by.iaa.contacts.Model.Contact;
 import by.iaa.contacts.Model.Image;
+import by.iaa.contacts.ViewModel.EditViewModel;
 
 public class ChangeContactActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     DatePicker date;
     ImageView image;
-    Contact contact;
+    EditViewModel contact;
     EditText name, description, link, firstPhone, secondPhone, telegram, organization;
     IRepository<Contact> db = new DatabaseAdapter(this);
 
@@ -48,6 +48,7 @@ public class ChangeContactActivity extends AppCompatActivity implements AdapterV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_contact);
+        contact = new EditViewModel(this);
 
         image = findViewById(R.id.image);
         name = findViewById(R.id.name);
@@ -60,12 +61,8 @@ public class ChangeContactActivity extends AppCompatActivity implements AdapterV
         organization = findViewById(R.id.location);
         link = findViewById(R.id.link);
 
-        db.open();
-
-        int id = ((Contact) getIntent().getExtras().getSerializable("contact")).id;
-        contact = db.get(id);
-
-        db.close();
+        int id = getIntent().getIntExtra("id", 0);
+        contact = contact.getContactById(id);
 
         Image.getInstance().loadImageFromStorage(image, contact.pathImages);
         name.setText(contact.name);
@@ -153,15 +150,14 @@ public class ChangeContactActivity extends AppCompatActivity implements AdapterV
         contact.socialLink = link.getText().toString();
         contact.organization = organization.getText().toString();
 
-
         try {
             contact.pathImages = Image.getInstance().saveToInternalStorage(
                     ((BitmapDrawable) image.getDrawable()).getBitmap(), this, contact.getNameImage());
         } catch (IOException exception) {
             exception.printStackTrace();
         }
-        db.open();
-        db.update(contact);
-        db.close();
+
+        contact.UpdateContact(contact);
+
     }
 }

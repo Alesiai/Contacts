@@ -22,26 +22,25 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import by.iaa.contacts.Adapter.ContactAdapter;
 import by.iaa.contacts.ChangeContactActivity;
 import by.iaa.contacts.DB.DatabaseAdapter;
 import by.iaa.contacts.DB.IRepository;
 import by.iaa.contacts.Model.Contact;
-import by.iaa.contacts.Model.ContactsList;
 import by.iaa.contacts.R;
+import by.iaa.contacts.ViewModel.MainViewModel;
 
 
 public class ListContactFragment extends Fragment implements AdapterView.OnItemSelectedListener{
     ListView contacts;
-    ContactsList contactsList;
-    Contact selectedItem;
+    MainViewModel selectedItem;
     ContactAdapter adapter;
-    IRepository<Contact> db;
-    final int DIALOG_DELETE = 1;
     ArrayAdapter<CharSequence> spinnerAdapter;
     EditText editText;
     View view;
@@ -49,12 +48,14 @@ public class ListContactFragment extends Fragment implements AdapterView.OnItemS
     Spinner category;
     Integer SelectedCategoryTypeId = 0;
     String searchText;
+
+    MainViewModel mainViewModel;
     public ListContactFragment() {
         super(R.layout.list_contacts_fragment);
     }
 
     public interface OnFragmentSendDataListener {
-        void onSendData(Contact data);
+        void onSendData(MainViewModel data);
     }
 
     private OnFragmentSendDataListener fragmentSendDataListener;
@@ -69,8 +70,7 @@ public class ListContactFragment extends Fragment implements AdapterView.OnItemS
             throw new ClassCastException(context.toString()
                     + " должен реализовывать интерфейс OnFragmentInteractionListener");
         }
-        db = new DatabaseAdapter(context);
-
+        mainViewModel = new MainViewModel(context);
 
         spinnerAdapter = ArrayAdapter.createFromResource
                 (context, R.array.categoryTypesForSearch, android.R.layout.simple_spinner_item);
@@ -116,19 +116,24 @@ public class ListContactFragment extends Fragment implements AdapterView.OnItemS
     }
 
     public void setListContacts() {
-        db.open();
-        adapter = new ContactAdapter(getContext(), R.layout.list_item, db.getAllByType(SelectedCategoryTypeId));
-        db.close();
-        contacts.setAdapter(adapter);
+
+        try{
+            List<MainViewModel> mainViewModels = mainViewModel.getContactsByType(SelectedCategoryTypeId);
+            adapter = new ContactAdapter(getContext(), R.layout.list_item, mainViewModels);
+            contacts.setAdapter(adapter);
+        }
+        catch (Exception e){
+        }
+
+
         registerForContextMenu(contacts);
         contacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                // по позиции получаем выбранный элемент
-                Contact selectedItem = (Contact) contacts.getItemAtPosition(position);
-                fragmentSendDataListener.onSendData(selectedItem);
-            }
-        });
+          @Override
+         public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+            MainViewModel selectedItem = (MainViewModel) contacts.getItemAtPosition(position);
+              fragmentSendDataListener.onSendData(selectedItem);
+         }
+       });
     }
 
     public static final int IDM_OPEN = 101;
@@ -147,28 +152,27 @@ public class ListContactFragment extends Fragment implements AdapterView.OnItemS
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        selectedItem = (Contact) contacts.getItemAtPosition(info.position);
-        switch (item.getItemId()) {
-            case IDM_OPEN:
-                InfoEvent();
-                return true;
-            case IDM_REMOVE:
+        selectedItem = (MainViewModel) contacts.getItemAtPosition(info.position);
+       switch (item.getItemId()) {
+           case IDM_OPEN:
+               InfoEvent();
+               return true; case IDM_REMOVE:
                 showDialog();
             default:
-                return super.onContextItemSelected(item);
+               return super.onContextItemSelected(item);
         }
     }
 
     public void InfoEvent() {
         Intent intent = new Intent(getContext(), ChangeContactActivity.class);
-        intent.putExtra("contact", selectedItem);
+        intent.putExtra("id", selectedItem.id);
         startActivity(intent);
     }
 
     protected void showDialog() {
         AlertDialog.Builder al = new AlertDialog.Builder(getContext());
         al.setTitle("Удаление");
-        al.setMessage("Вы действительно хотите удалить мероприятие?");
+        al.setMessage("Вы действительно хотите удалить контакт?");
         al.setPositiveButton("Да", clickListener);
         al.setNegativeButton("Нет", clickListener);
         al.show();
@@ -179,9 +183,7 @@ public class ListContactFragment extends Fragment implements AdapterView.OnItemS
         public void onClick(DialogInterface dialogInterface, int i) {
             switch (i) {
                 case DialogInterface.BUTTON_POSITIVE:
-                    db.open();
-                    db.remove(selectedItem.id);
-                    db.close();
+                    mainViewModel.DeleteContact(selectedItem.id);
                     setListContacts();
                     return;
                 case DialogInterface.BUTTON_NEGATIVE:
@@ -191,34 +193,28 @@ public class ListContactFragment extends Fragment implements AdapterView.OnItemS
         }
     };
 
-    public void sortedEventsInAsc() {
-        db.open();
-        Collections.sort(db.getAll(), new Comparator<Contact>() {
+    public void sortedContactsInAsc() {
+       Collections.sort(mainViewModel.getContactsByType(SelectedCategoryTypeId), new Comparator<MainViewModel>() {
             @Override
-            public int compare(Contact contact, Contact t1) {
-                return contact.calendar.compareTo(t1.calendar);
-            }
+            public int compare(MainViewModel contact, MainViewModel t1) {
+              return contact.name.compareTo(t1.name);
+           }
         });
-        db.close();
-        adapter.notifyDataSetChanged();
+       adapter.notifyDataSetChanged();
     }
 
-    public void sortedEventsInDesc() {
-        db.open();
-        Collections.sort(db.getAll(), new Comparator<Contact>() {
+    public void sortedContactsInDesc() {
+        Collections.sort(mainViewModel.getContactsByType(SelectedCategoryTypeId), new Comparator<MainViewModel>() {
             @Override
-            public int compare(Contact contact, Contact t1) {
-                return t1.calendar.compareTo(contact.calendar);
+            public int compare(MainViewModel contact, MainViewModel t1) {
+               return t1.name.compareTo(contact.name);
             }
         });
-        db.close();
-        adapter.notifyDataSetChanged();
+       adapter.notifyDataSetChanged();
     }
 
     public void GetByName(){
-        db.open();
-        adapter = new ContactAdapter(getContext(), R.layout.list_item, db.getAllByName(searchText));
-        db.close();
+        adapter = new ContactAdapter(getContext(), R.layout.list_item, mainViewModel.getContactsByName(searchText));
         contacts.setAdapter(adapter);
     }
 

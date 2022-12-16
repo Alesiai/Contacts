@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -15,13 +16,14 @@ import java.util.List;
 import by.iaa.contacts.Model.Contact;
 import by.iaa.contacts.Model.Image;
 import by.iaa.contacts.R;
+import by.iaa.contacts.ViewModel.MainViewModel;
 
 public class ContactAdapter extends ArrayAdapter {
     private LayoutInflater inflater;
     private int layout;
-    private List<Contact> events;
+    private List<MainViewModel> events;
 
-    public ContactAdapter(@NonNull Context context, int resource, List<Contact> events) {
+    public ContactAdapter(@NonNull Context context, int resource, List<MainViewModel> events) {
         super(context, resource, events);
         this.events = events;
         this.layout = resource;
@@ -38,23 +40,23 @@ public class ContactAdapter extends ArrayAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Contact event = events.get(position);
+        MainViewModel event = events.get(position);
 
         viewHolder.nameView.setText(event.name);
-        viewHolder.date.setText(event.firstPhone);
-        Image.getInstance().loadImageFromStorage(viewHolder.imageView, event.pathImages);
+        viewHolder.firstPhone.setText(event.pathImages);
+        Image.getInstance().loadImageFromStorage(viewHolder.imageView, event.firstPhone);
 
         return convertView;
     }
 
     private class ViewHolder {
         final ImageView imageView;
-        final TextView nameView, date;
+        final TextView nameView, firstPhone;
 
         ViewHolder(View view) {
             imageView = view.findViewById(R.id.imageView);
             nameView = view.findViewById(R.id.name);
-            date = view.findViewById(R.id.date);
+            firstPhone = view.findViewById(R.id.firstPhone);
         }
     }
 }
